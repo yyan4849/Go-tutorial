@@ -119,4 +119,173 @@ var(
 
 ## Flow control statements: for, if, else, switch anf defer
 
+### For
+
+- Three components separated by semicolons:
+-the init statement: excuted before the first iteration; only visible in the scope of `for`
+-the condition expression: evaluated before every iteration
+-the post statement: executed at the end of every iteration
+
+``` Go
+    sum := 0
+    for i := 0; i <10; i++ {
+        sum += i
+    }
+```
+
+- The inital and post statements are optional
+
+```Go
+    sum := 1
+    for ; sum<1000; {
+        sum += sum
+    }
+```
+
+### For is Go's While
+
+```Go
+    for sum < 1000{
+        sum += sum
+    }
+```
+
+### If
+
+```Go
+    if x < 0 {
+        return sqrt(-x) + "i"
+    }
+
+```
+
+### If with short statement
+
+```Go
+if v:= math.Pow(x,n); v <lim{
+    return v
+}
+```
+
+### If else
+
+- Variable declared in if statement could also be used in else statement but not outside
+
+### Switch
+
+- Values invovled need not to be ints
+- Switch cases cannot be constant
+- Auto add break
+
+```Go
+switch os := runtime.GOOS; os {
+ case "darwin":
+  fmt.Println("OS X.")
+ case "linux":
+  fmt.Println("Linux.")
+ default:
+  // freebsd, openbsd,
+  // plan9, windows...
+  fmt.Printf("%s.\n", os)
+ }
+```
+
+- Switch evaluates case from top to bottom
+- Switch with no condition -> long if-then-else chains
+
+### Defer
+
+- A deferred statement defer execution of a funtion until the surrounding function returns
+- Arguments are evaluated immediately, but the function executed after all surrounding functions return
+
+### Stacking defers
+
+- Defered calls are pushed onto a stack, when funtion returns, its deferred calls are executed in LIFO
+
+## More types: structs, slices, and maps
+
+### Pointers
+
+- A pointers holds the memory address of a value
+- `*T` is a pointer to a `T`value. Its zero value is `nil`
+- `&` generates a pointer to its operand
+- `*` denotes the pointer's underlying value, knowing as "dereferencing" or "indirecting"
+
+```Go
+func main() {
+ i, j := 42, 2701
+
+ p := &i         // point to i
+ fmt.Println(*p) // read i through the pointer
+ *p = 21         // set i through the pointer
+ fmt.Println(i)  // see the new value of i
+
+ p = &j         // point to j
+ *p = *p / 37   // divide j through the pointer
+ fmt.Println(j) // see the new value of j
+}
+```
+
+### Structs
+
+`struct` a collection of fields
+
+### Stucts Fields
+
+Struct fields are accessed using a dot
+
+```Go
+type Vertex struct {
+ X int
+ Y int
+}
+
+func main() {
+ v := Vertex{1, 2}
+ v.X = 4
+ fmt.Println(v.X)
+}
+```
+
+### Pointers to structes
+
+sturct fields can be accessed by a struct pointer
+
+```Go
+type Vertex struct {
+ X int
+ Y int
+}
+
+func main() {
+ v := Vertex{1, 2}
+ p := &v
+ p.X = 1e9
+ fmt.Println(v)
+}
+```
+
+### Struct Literals
+
+```Go
+type Vertex struct {
+ X, Y int
+}
+
+var (
+ v1 = Vertex{1, 2}  // has type Vertex
+ v2 = Vertex{X: 1}  // Y:0 is implicit
+ v3 = Vertex{}      // X:0 and Y:0
+ p  = &Vertex{1, 2} // has type *Vertex
+)
+```
+
+### Arrays
+
+- `var a[10]int` declares a variable `a` as an array of ten ints
+
+- Array's length is part of its type, so array cannot be resized
+
+### Slice
+
 Note from the [A Tour of Go](https://go.dev/tour/welcome/1)
